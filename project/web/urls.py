@@ -21,7 +21,8 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^me/', views.profile, name='profile'),
+    url(r'^me/$', views.profile, name='profile'),
+    url(r'^me/analyse/$', views.analyse, name='analyse'),
 
     # Social auth urls
     url('', include('social.apps.django_app.urls', namespace='social')),
