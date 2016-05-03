@@ -5,3 +5,4 @@ scikit-learn==0.17.1
 Django==1.9
 python-social-auth>=0.2.19
 djangorestframework>=3.3.3
+git+https://github.com/ben-chin/auto-categorizer.git
