@@ -1,7 +1,9 @@
+from rest_framework.serializers import ModelSerializer, CharField
 from django.contrib.auth.models import User
 from social.apps.django_app.default.models import UserSocialAuth
-from web.models import Category
-from rest_framework.serializers import ModelSerializer, CharField
+
+from api.fields import CustomListField
+from web.models import Category, CategoryAnalysis, Analysis
 
 
 class UserSocialAuthSerializer(ModelSerializer):
@@ -24,3 +26,21 @@ class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'name')
+
+
+class CategoryAnalysisSerializer(ModelSerializer):
+    category = CategorySerializer()
+    posts = CustomListField()
+
+    class Meta:
+        model = CategoryAnalysis
+        fields = ('category', 'posts')
+
+
+class AnalysisSerializer(ModelSerializer):
+    user = UserSerializer()
+    categories = CategoryAnalysisSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Analysis
+        fields = ('user', 'categories')
