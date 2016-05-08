@@ -62,7 +62,7 @@ def classify_tweets(tweets, user):
     categories = defaultdict(list)
     for tweet in tweets:
         result = ac.classify(tweet.text)
-        identified_categories = np.nonzero(result)[0]
+        identified_categories = np.nonzero(result)[1]
         for c in identified_categories:
             categories[c].append(tweet.id_str)
 
@@ -80,12 +80,12 @@ def classify_tweets(tweets, user):
 
 
 def index(request):
-    return render(request, 'web/index.html')
+    return render(request, 'web/index/main.html')
 
 
 @login_required(login_url='/')
 def profile(request):
-    return render(request, 'web/profile.html')
+    return render(request, 'web/profile/main.html')
 
 
 @login_required(login_url='/')
@@ -99,9 +99,12 @@ def analyse(request):
 
         classify_tweets(tweets, request.user)
 
-        return render(request, 'web/analyse.html', {
-            'tweets': len(tweets),
-        })
+        return redirect('report')
+
+
+@login_required(login_url='/')
+def report(request):
+    return render(request, 'web/report/main.html')
 
 
 @login_required(login_url='/')

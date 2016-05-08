@@ -1,5 +1,11 @@
-{% if user %}
+{% extends 'web/base.html' %}
 
-    <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+{% block 'title' %}Home{% endblock %}
 
-{% endif %}
+{% block 'content' %}
+    {% if user %}
+
+        <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+
+    {% endif %}
+{% endblock %}

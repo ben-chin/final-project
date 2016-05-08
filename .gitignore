@@ -3,3 +3,4 @@
 project/web/config.py
 project/db.sqlite3
 project/data/*
+project/.env
