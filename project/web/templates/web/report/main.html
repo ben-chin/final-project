@@ -1,114 +1,112 @@
 {% extends 'web/base.html' %}
+{% load staticfiles %}
 
 {% block 'title' %}Your Report{% endblock %}
 
 {% block 'content' %}
 
-    <div class="Content"></div>
+    <nav class="Nav navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="Nav-header navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="Nav-brand navbar-brand" href="#">cleanapp</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-right" id="nav">
+          <ul class="Nav-userArea nav navbar-nav">
+            <li class="dropdown dropdown-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    {{ screen_name }} <span class="caret"></span>
+                </a>
+              <ul class="Nav-userDropDown dropdown-menu">
+                <li><a href="#">Settings</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="Wrapper container">
+        <div class="Content">
+
+            <div class="CategoryList col-xs-4">
+                <header class="ReportHeader">
+                    <div class="ReportHeader-inner">
+                        <h2 class="ReportHeader-title">Report</h2>
+                    </div>
+                </header>
+
+                <ul class="CategoryList-items">
+                    <!-- <li class="CategoryList-item CategoryItem">
+                        <div class="CategoryItem-hoverBar"></div>
+                        <div class="CategoryItem-details">
+                            <span class="CategoryItem-name">
+                                Excessive Alcohol Consumption
+                            </span>
+
+                            <span class="CategoryItem-count">
+                                53
+                            </span>
+                        </div>
+                        <div class="CategoryItem-actions">
+                            <div class="row">
+                                <a class="CategoryItem-action col-xs-3" href="#">
+                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-ok-circle"></span>
+                                </a>
+                                <a class="CategoryItem-action col-xs-3" href="#">
+                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-globe"></span>
+                                </a>
+                                <a class="CategoryItem-action col-xs-3" href="#">
+                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-ban-circle"></span>
+                                </a>
+                                <a class="CategoryItem-action col-xs-3" href="#">
+                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-eye-close"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+
+            <div class="TweetList col-xs-8">
+                <header class="CategoryHeader">
+                    <div class="CategoryHeader-inner">
+                        <h2 class="CategoryHeader-title">Excessive Alcohol Consumption</h2>
+                    </div>
+                </header>
+
+                 <ul class="TweetList-items">
+                    <!-- <li class="TweetList-item TweetItem">
+                        <div class="TweetItem-details">
+                            <a href="#">
+                                <span class="TweetItem-delete glyphicon glyphicon-remove"></span>
+                            </a>
+                            <p class="TweetItem-name">
+                                RT @joelotter: "Pooh felt that he ought to say something helpful about it, but didn't quite know what. So he decided to do something helpful instead."
+                            </p>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block 'styles' %}
-    <style type="text/css">
-        body {
-            font-family: 'Merriweather', sans-serif;
-            font-size: 12px;
-        }
-
-        .Content {
-            padding: 50px;
-        }
-
-        .Category {
-            display: inline-block;
-            padding: 30px;
-            width: 400px;
-        }
-
-        .CategoryHeader {
-            padding: 10px 30px;
-            border-radius: 4px;
-            background-color: #F5F5F5;
-            border-bottom: 3px solid #F0F0F0;
-        }
-
-        .CategoryHeader-title {
-            color: #333;
-            font-family: 'Open Sans', sans-serif;
-            font-weight: bold;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .CategoryExplanation {
-            padding: 15px 30px;
-            font-style: italic;
-        }
-
-        .CategoryPosts {
-            list-style-type: none;
-        }
-
-        .CategoryPost {
-            display: inline-block;
-            margin: 5px 10px;
-            border-radius: 4px;
-            border: 1px solid #ff973b;
-            padding: 5px 12px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'web/assets/css/main.css' %}">
 {% endblock %}
 
 {% block 'js' %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $.get('/api/v1/analysis', function (data) {
-                render(data);
-            });
-        });
-
-        function render(data) {
-            console.log(data);
-
-            if (data.categories) {
-                var root = $('.Content');
-                for (var i = 0; i < data.categories.length; i++) {
-                    renderCategory(data.categories[i], root);
-                }
-            }
-        }
-
-        function renderCategory(c, $node) {
-            var posts = '';
-            for (var i = 0; i < 3; i++) {
-                posts += renderPost(c.posts[i]);
-            }
-            var mmmarkup = '<div class="Category">'
-                        +      '<header class="CategoryHeader">'
-                        +          '<h3 class="CategoryHeader-title">'
-                        +               c.category.name
-                        +               ' (' + c.posts.length + ')'
-                        +          '</h3>'
-                        +      '</header>'
-                        +      '<p class="CategoryExplanation">'
-                        +          'Here are a few posts we found under this category, do these make sense?'
-                        +      '</p>'
-                        +      '<ul class="CategoryPosts">'
-                        +           posts
-                        +      '</ul>'
-                        + '</div>'
-                        ;
-
-            $node.append(mmmarkup);
-        }
-
-        function renderPost(post) {
-            return '<li class="CategoryPost">'
-                +              '<p>'
-                +                  post
-                +              '</p>'
-                +          '</li>'
-                ;
-        }
-    </script>
+    <script type="text/javascript" src="{% static 'web/assets/js/main.js' %}"></script>
 {% endblock %}

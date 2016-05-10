@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^me/$', views.profile, name='profile'),
     url(r'^me/analyse/$', views.analyse, name='analyse'),
     url(r'^me/report/$', views.report, name='report'),
+    url(r'^tweets/$', views.tweets, name='tweets'),
+
 
     # Social auth urls
     url('', include('social.apps.django_app.urls', namespace='social')),

@@ -1,0 +1,252 @@
+$accent-clr: #38CA76;
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    padding-top: 50px;
+    color: #34495e;
+
+    background: #f7f7f7;
+}
+
+.Nav {
+    background-color: $accent-clr;
+    border: none;
+}
+
+.Nav-brand {
+
+    &.navbar-brand {
+        color: white;
+        font-family: 'Simplifica', sans-serif;
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+}
+
+.Nav-userArea {
+
+    .Nav & {
+        &> li > a {
+            color: white;
+
+            &:focus,
+            &:hover,
+            &:active {
+                color: white;
+                background: none;
+            }
+        }
+
+        &> .dropdown.open {
+            
+            &> a {
+                color: white;
+                background: none;
+            }
+        }
+    }
+}
+
+.Nav-userDropDown {
+    background: $accent-clr;
+    box-shadow: none;
+    border: none;
+    
+    &> li > a {
+        color: white;
+        font-weight: 300;
+
+        &:focus,
+        &:hover,
+        &:active {
+            color: white;
+            background: none;
+        }
+    }
+}
+
+.Wrapper {
+    height: 100%;
+    padding: 25px 15px;
+}
+
+.Content {
+    height: 100%;
+    border-radius: 4px;
+    background: #fafafa;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+
+    overflow: hidden;
+}
+
+.ReportHeader,
+.CategoryHeader {
+    position: absolute;
+    z-index: 5;
+    height: 90px;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    background: #fafafa;
+}
+
+.ReportHeader-inner,
+.CategoryHeader-inner {
+    border-bottom: 1px solid #e9e9e9;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-left: 40px;
+}
+
+.ReportHeader-title,
+.CategoryHeader-title {
+    font-weight: 300;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.ReportHeader-title {
+    color: $accent-clr;
+    font-size: 22px;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+.CategoryHeader-title {
+    font-family: 'Simplifica', sans-serif;
+    font-size: 40px;
+    letter-spacing: 4px;
+}
+
+.CategoryList {
+    height: 100%;
+}
+
+.TweetList-items,
+.CategoryList-items {
+    list-style-type: none;
+    padding-left: 0;
+    position: absolute;
+    top: 90px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+
+    border-right: 1px solid #eee;
+    margin-bottom: -1px;
+}
+
+.CategoryItem {
+    position: relative;
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    cursor: pointer;
+
+    &:hover {
+
+        .CategoryItem-hoverBar {
+            opacity: 1;
+            transition: opacity 0.1s ease-in 0.05s;
+        }
+
+        .CategoryItem-name {
+            color: $accent-clr;
+            transition: color 0.1s ease-in 0.05s;
+        }
+    }
+}
+
+.CategoryItem-hoverBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: $accent-clr;
+    height: 100%;
+    width: 4px;
+    opacity: 0;
+
+    transition: opacity 0.05s ease-out;
+}
+
+.CategoryItem-details {
+    padding: 10px 25px;
+    float: left;
+    width: 100%;
+}
+
+.CategoryItem-name {
+    font-family: 'Simplifica', sans-serif;
+    font-size: 23px;
+    letter-spacing: 2px;
+    float: left;
+
+    transition: color 0.05s ease-out;
+}
+
+.CategoryItem-count {
+    float: right;
+    color: #f7f7f7;
+    background: #34495e;
+    border-radius: 99em;
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 6px;
+    margin-top: -1px;
+}
+
+.CategoryItem-actions {
+    float: left;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.CategoryItem-action {
+    text-align: center;
+}
+
+.CategoryItem-actionIcon {
+
+}
+
+.TweetList {
+    height: 100%;
+}
+
+.TweetItem {
+    border-bottom: 1px solid #eee;
+}
+
+.TweetItem-details {
+    position: relative;
+    padding: 15px 30px;
+}
+
+.TweetItem-name {
+    padding-right: 50px;
+}
+
+.TweetItem-delete {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 30px;
+    width: 30px;
+    margin-top: -15px;
+}
