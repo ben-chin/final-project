@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^me/analyse/$', views.analyse, name='analyse'),
     url(r'^me/report/$', views.report, name='report'),
     url(r'^tweets/$', views.tweets, name='tweets'),
+    url(r'^analysis/save$', views.save_analysis, name='save_analysis'),
 
 
     # Social auth urls

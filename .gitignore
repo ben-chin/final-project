@@ -3,8 +3,8 @@
 .vagrant/
 project/web/config.py
 project/db.sqlite3
-project/data/*
 project/.env
 project/.sass-cache
 project/web/static/web/assets/css/*
+worker/data/*
 
