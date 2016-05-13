@@ -1,0 +1,7 @@
+---
+
+app_dir: '/app'
+working_dir: '/src'
+web_dir: '{{ app_dir }}/project'
+worker_dir: '{{ app_dir }}/worker'
+python_runner: '{{ working_dir }}/python_runner.sh'

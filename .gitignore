@@ -1,5 +1,6 @@
 *.pyc
 .DS_Store
+.vagrant/
 project/web/config.py
 project/db.sqlite3
 project/data/*

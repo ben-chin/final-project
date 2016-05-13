@@ -1,0 +1,3 @@
+---
+
+global_env_file: '/etc/profile.d/global-env.sh'

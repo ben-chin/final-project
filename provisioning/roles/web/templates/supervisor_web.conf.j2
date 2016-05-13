@@ -1,0 +1,15 @@
+[program:web]
+command={{ python_runner }} {{ web_venv }}/bin/python {{ web_dir }}/manage.py runserver 0.0.0.0:8000
+directory={{ web_dir }}
+autostart=true
+autorestart=true
+stdout_logfile={{ web_log_dir }}/web_out.log
+redirect_stderr=true
+user=root
+stopsignal=QUIT
+stopasgroup=true
+
+
+[supervisord]
+
+[supervisorctl]

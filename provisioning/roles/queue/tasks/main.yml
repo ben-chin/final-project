@@ -1,0 +1,9 @@
+---
+
+- name: Install RabbitMQ server
+  apt: name={{ item }} state=present
+  with_items:
+    - rabbitmq-server
+
+- name: Restart RabbitMQ server
+  service: name=rabbitmq-server state=restarted

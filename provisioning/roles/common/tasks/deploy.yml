@@ -1,0 +1,6 @@
+---
+
+- name: Copying environment variables file
+  template: src=environment.sh.j2 dest={{ global_env_file }}
+
+# TODO: clone web code

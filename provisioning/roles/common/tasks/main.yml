@@ -1,0 +1,31 @@
+---
+
+- name: 'Update apt'
+  apt: update_cache=yes cache_valid_time=86400
+  when: not development
+
+- name: 'Install common dependencies'
+  apt: name='{{ item }}' state=present
+  with_items:
+     - build-essential
+     - git
+     - python-pip
+     - python-virtualenv
+     - python2.7
+     - python2.7-dev
+     - supervisor
+     - vim
+
+- name: Make working directory
+  file: path={{ working_dir }} state=directory
+
+- name: 'Copy the python runner'
+  template: src=python_runner.sh.j2 dest='{{ python_runner }}' mode=0755
+
+- name: Create app user
+  user: name=app shell=/bin/bash
+
+- name: Make source directory
+  file: path={{ app_dir }} state=directory owner=app
+
+- include: deploy.yml

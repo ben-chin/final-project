@@ -1,0 +1,32 @@
+---
+
+- name: Install scikit-learn
+  apt: name={{ item }} state=present
+  with_items:
+    - python-setuptools
+    - python-numpy
+    - python-scipy
+    - libatlas-dev
+    - libatlas3gf-base
+    - python-sklearn
+
+- name: Start supervisor service
+  service: name=supervisor state=started
+
+- name: Create the worker user
+  user: name=worker shell=/bin/bash
+
+- name: Create folder for worker files
+  file: path={{ worker_working_dir }} owner=worker group=worker state=directory
+
+- name: Create logging directory
+  file: path={{ worker_log_dir }} owner=worker group=worker state=directory
+
+- name: Create/activate virtualenv and install dependencies
+  pip: requirements={{ worker_dir }}/requirements.txt virtualenv={{ worker_venv }} state=present
+
+- name: Copy the supervisor config
+  template: src=supervisor_worker.conf.j2 dest={{ supervisor_config }}
+
+- name: Start worker process
+  shell: supervisorctl reload
