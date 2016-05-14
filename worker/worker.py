@@ -1,5 +1,6 @@
 import os
 import tweepy
+import json
 
 from collections import defaultdict
 from celery import Celery
@@ -36,7 +37,7 @@ def scrape_tweets(user_id, creds):
         count=200
     )
 
-    for status in cursor.items(3000):
+    for status in cursor.items(3):
         statuses.append(status)
 
     return statuses
@@ -56,5 +57,23 @@ def classify_tweets(tweets):
 # Supply user and credentials to scrape and analyse
 # or supply just user and tweets (from cache) to analyse
 @celery.task(name='analyse')
-def analyse(user_id, credentials=None, tweets=None):
-    return ''
+def analyse(user_id, social_id, credentials=None, tweets=None):
+    # TODO: send notification
+    print '> [worker] scraping tweets'
+    tweets = scrape_tweets(social_id, credentials)
+    # TODO: send notification
+    print '> [worker] classifying tweets'
+    result = classify_tweets(tweets)
+    categories = []
+    for cat_id in result:
+        categories.append({
+            'id': cat_id,
+            'posts': result[cat_id],
+        })
+
+    # TODO: send POST request with result to web app
+    payload = {
+        'user': user_id,
+        'categories': categories,
+    }
+    print json.dumps(payload)

@@ -1,5 +1,5 @@
-# import numpy as np
 import time
+import os
 
 # from collections import defaultdict
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,10 +14,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from querystring_parser import parser as qp
+from celery import Celery
 
 # TODO: refactor this to somewhere else
 import tweepy
 from project.settings import SOCIAL_AUTH_TWITTER_KEY, SOCIAL_AUTH_TWITTER_SECRET
+
+celery = Celery(
+    'worker',
+    broker=os.environ['CELERY_BROKER_URL'],
+    backend='rpc'
+)
 
 
 def get_tweets_by_ids(ids, user_id):
@@ -86,7 +93,15 @@ def profile(request):
 @login_required(login_url='/')
 def analyse(request):
     if request.user:
-        # uid = request.user.social_auth.get().uid
+        social_auth = UserSocialAuth.objects.filter(user=request.user)[0]
+        celery.send_task('analyse', [
+            request.user.id,
+            social_auth.uid,
+            {
+                'key': social_auth.access_token['oauth_token'],
+                'secret': social_auth.access_token['oauth_token_secret'],
+            },
+        ])
         # tweets = cache.get(uid)
         # if tweets is None:
         #     tweets = get_tweets(uid)
