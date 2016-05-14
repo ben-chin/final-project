@@ -35,7 +35,7 @@ class AnalysisViewSet(ReadOnlyModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def list(self, request):
-        user_analysis = Analysis.objects.filter(user=request.user)
+        user_analysis = Analysis.objects.filter(user=request.user).order_by('-created_at')
         if not user_analysis:
             return Response({})
         user_analysis = user_analysis[0]

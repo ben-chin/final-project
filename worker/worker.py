@@ -1,11 +1,15 @@
 import os
 import tweepy
 import json
+import requests
 
 from collections import defaultdict
 from celery import Celery
 from social.twitter import TwitterApiFactory
 from autocat import ACSerializer
+
+
+TWEETS_TO_SCRAPE = 500
 
 # TODO: refactor to use command-line args and specify from ansible/supervisor?
 WORKER_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -37,7 +41,7 @@ def scrape_tweets(user_id, creds):
         count=200
     )
 
-    for status in cursor.items(3):
+    for status in cursor.items(TWEETS_TO_SCRAPE):
         statuses.append(status)
 
     return statuses
@@ -57,13 +61,15 @@ def classify_tweets(tweets):
 # Supply user and credentials to scrape and analyse
 # or supply just user and tweets (from cache) to analyse
 @celery.task(name='analyse')
-def analyse(user_id, social_id, credentials=None, tweets=None):
+def analyse(user_id, social_id, url, credentials=None, tweets=None):
     # TODO: send notification
     print '> [worker] scraping tweets'
     tweets = scrape_tweets(social_id, credentials)
+
     # TODO: send notification
     print '> [worker] classifying tweets'
     result = classify_tweets(tweets)
+
     categories = []
     for cat_id in result:
         categories.append({
@@ -71,9 +77,10 @@ def analyse(user_id, social_id, credentials=None, tweets=None):
             'posts': result[cat_id],
         })
 
-    # TODO: send POST request with result to web app
-    payload = {
+    data = {
         'user': user_id,
         'categories': categories,
     }
-    print json.dumps(payload)
+
+    payload = {'response': json.dumps(data)}
+    requests.post(url, payload)

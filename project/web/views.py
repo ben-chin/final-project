@@ -1,8 +1,11 @@
 import time
+import sys
 import os
+import json
 
 # from collections import defaultdict
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -13,7 +16,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from querystring_parser import parser as qp
 from celery import Celery
 
 # TODO: refactor this to somewhere else
@@ -60,27 +62,6 @@ def parse_tweet(tweet):
     }
 
 
-# def classify_tweets(tweets, user):
-#     categories = defaultdict(list)
-#     for tweet in tweets:
-#         result = ac.classify(tweet.text)
-#         identified_categories = np.nonzero(result)[1]
-#         for c in identified_categories:
-#             categories[c].append(tweet.id_str)
-
-#     analysis = Analysis(user=user)
-#     analysis.save()
-
-#     for category in categories:
-#         cat = Category.objects.get(pk=category + 1)
-#         c = CategoryAnalysis(
-#             category=cat,
-#             posts=categories[category],
-#             analysis=analysis
-#         )
-#         c.save()
-
-
 def index(request):
     return render(request, 'web/index/main.html')
 
@@ -97,6 +78,7 @@ def analyse(request):
         celery.send_task('analyse', [
             request.user.id,
             social_auth.uid,
+            request.build_absolute_uri(reverse('save_analysis')),
             {
                 'key': social_auth.access_token['oauth_token'],
                 'secret': social_auth.access_token['oauth_token_secret'],
@@ -138,7 +120,7 @@ def tweets(request):
 @csrf_exempt
 @require_POST
 def save_analysis(request):
-    post_vars = qp.parse(request.POST.urlencode())
+    post_vars = json.loads(request.POST.get('response'))
 
     user_id = post_vars['user']
     categories = post_vars['categories']
@@ -146,9 +128,11 @@ def save_analysis(request):
     user = get_object_or_404(User, pk=user_id)
     analysis = Analysis.objects.create(user=user)
 
-    for c in categories.values():
-        category = get_object_or_404(Category, pk=c['id'])
-        posts = map(str, c['posts'][''])
+    for c in categories:
+        cat_id = c['id'] + 1
+        category = get_object_or_404(Category, pk=cat_id)
+        print >>sys.stderr, category
+        posts = c['posts']
         CategoryAnalysis.objects.create(
             analysis=analysis,
             category=category,

@@ -14,16 +14,17 @@ class Category(models.Model):
 
 
 class Analysis(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='owner')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return '{}\'s analysis'.format(self.user.id)
+        return '{} | {}'.format(self.user.id, self.id)
 
 
 class CategoryAnalysis(models.Model):
     analysis = models.ForeignKey(Analysis, related_name='categories')
-    category = models.OneToOneField(Category)
+    category = models.ForeignKey(Category)
     posts = ListField()
 
     def __unicode__(self):
-        return '{}\'s {} analysis'.format(self.analysis.user.id, self.category)
+        return '{} | {} - {}'.format(self.analysis.user.id, self.analysis.id, self.category)
