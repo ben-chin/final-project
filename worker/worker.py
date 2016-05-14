@@ -4,12 +4,12 @@ import tweepy
 from collections import defaultdict
 from celery import Celery
 from social.twitter import TwitterApiFactory
-# from autocat import ACSerializer
+from autocat import ACSerializer
 
 # TODO: refactor to use command-line args and specify from ansible/supervisor?
-# WORKER_DIR = os.path.dirname(os.path.abspath(__file__))
-# PATH_TO_AC_PKL = os.path.join(WORKER_DIR, 'data', 'ac', 'categorizer.pkl')
-# autocat = ACSerializer.load(PATH_TO_AC_PKL)
+WORKER_DIR = os.path.dirname(os.path.abspath(__file__))
+PATH_TO_AC_PKL = os.path.join(WORKER_DIR, 'data', 'ac', 'categorizer.pkl')
+autocat = ACSerializer.load(PATH_TO_AC_PKL)
 
 celery = Celery(
     'worker',
@@ -42,13 +42,15 @@ def scrape_tweets(user_id, creds):
     return statuses
 
 
-# def classify_tweets(tweets):
-#     categories = defaultdict(list)
-#     for tweet in tweets:
-#         result = autocat.classify(tweet.text)
-#         identified_categories = result.nonzero()[1]
-#         for c in identified_categories:
-#             categories[c].append(tweet.id_str)
+def classify_tweets(tweets):
+    categories = defaultdict(list)
+    for tweet in tweets:
+        result = autocat.classify(tweet.text)
+        identified_categories = result.nonzero()[1]
+        for c in identified_categories:
+            categories[c].append(tweet.id_str)
+
+    return categories
 
 
 # Supply user and credentials to scrape and analyse

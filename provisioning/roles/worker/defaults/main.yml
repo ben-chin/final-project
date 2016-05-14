@@ -4,4 +4,5 @@ worker_working_dir: '{{ working_dir }}/worker'
 worker_venv: '{{ worker_working_dir }}/.env'
 worker_log_dir: '{{ worker_working_dir }}/log'
 worker_activate_file: '{{ worker_venv }}/bin/activate'
-supervisor_config: '/etc/supervisor/conf.d/worker.conf'
+supervisor_config: /etc/supervisor/conf.d/worker.conf
+nltk_data_dir: /usr/local/share/nltk_data

@@ -4,11 +4,13 @@
   apt: name={{ item }} state=present
   with_items:
     - python-setuptools
+    - libblas-dev
+    - liblapack-dev
+    - libatlas-base-dev
+    - gfortran
+    - python-sklearn
     - python-numpy
     - python-scipy
-    - libatlas-dev
-    - libatlas3gf-base
-    - python-sklearn
 
 - name: Start supervisor service
   service: name=supervisor state=started
@@ -24,6 +26,11 @@
 
 - name: Create/activate virtualenv and install dependencies
   pip: requirements={{ worker_dir }}/requirements.txt virtualenv={{ worker_venv }} state=present
+
+- name: Download relevant NLTK data
+  shell: '{{ worker_venv }}/bin/python -m nltk.downloader -d {{ nltk_data_dir }} stopwords punkt'
+  args:
+    creates: '{{ nltk_data_dir }}'
 
 - name: Copy the supervisor config
   template: src=supervisor_worker.conf.j2 dest={{ supervisor_config }}
