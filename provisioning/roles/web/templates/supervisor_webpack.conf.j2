@@ -1,0 +1,15 @@
+[program:webpack]
+command=node {{ web_dir }}/build/webpack-dev-server.js
+directory={{ web_dir }}
+autostart=true
+autorestart=true
+stdout_logfile={{ web_log_dir }}/webpack-dev-server.log
+redirect_stderr=true
+user=root
+stopsignal=QUIT
+stopasgroup=true
+
+
+[supervisord]
+
+[supervisorctl]

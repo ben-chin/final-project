@@ -1,5 +1,6 @@
 {% extends 'web/base.html' %}
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 
 {% block 'title' %}Your Report{% endblock %}
 
@@ -37,7 +38,7 @@
 
     <div class="Wrapper container">
         <div class="Content">
-
+<!-- 
             <div class="CategoryList col-xs-4">
                 <header class="ReportHeader">
                     <div class="ReportHeader-inner">
@@ -46,34 +47,6 @@
                 </header>
 
                 <ul class="CategoryList-items">
-                    <!-- <li class="CategoryList-item CategoryItem">
-                        <div class="CategoryItem-hoverBar"></div>
-                        <div class="CategoryItem-details">
-                            <span class="CategoryItem-name">
-                                Excessive Alcohol Consumption
-                            </span>
-
-                            <span class="CategoryItem-count">
-                                53
-                            </span>
-                        </div>
-                        <div class="CategoryItem-actions">
-                            <div class="row">
-                                <a class="CategoryItem-action col-xs-3" href="#">
-                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-ok-circle"></span>
-                                </a>
-                                <a class="CategoryItem-action col-xs-3" href="#">
-                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-globe"></span>
-                                </a>
-                                <a class="CategoryItem-action col-xs-3" href="#">
-                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-ban-circle"></span>
-                                </a>
-                                <a class="CategoryItem-action col-xs-3" href="#">
-                                    <span class="CategoryItem-actionIcon glyphicon glyphicon-eye-close"></span>
-                                </a>
-                            </div>
-                        </div>
-                    </li> -->
                 </ul>
             </div>
 
@@ -85,18 +58,8 @@
                 </header>
 
                  <ul class="TweetList-items">
-                    <!-- <li class="TweetList-item TweetItem">
-                        <div class="TweetItem-details">
-                            <a href="#">
-                                <span class="TweetItem-delete glyphicon glyphicon-remove"></span>
-                            </a>
-                            <p class="TweetItem-name">
-                                RT @joelotter: "Pooh felt that he ought to say something helpful about it, but didn't quite know what. So he decided to do something helpful instead."
-                            </p>
-                        </div>
-                    </li> -->
                 </ul>
-            </div>
+            </div> -->
 
         </div>
     </div>
@@ -108,5 +71,6 @@
 {% endblock %}
 
 {% block 'js' %}
-    <script type="text/javascript" src="{% static 'web/assets/js/main.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'web/assets/js/main.js' %}"></script> -->
+    {% render_bundle 'main' %}
 {% endblock %}

@@ -16,7 +16,7 @@
   pip: requirements={{ web_dir }}/requirements.txt virtualenv={{ web_venv }} state=present
 
 - name: Copy the supervisor config
-  template: src=supervisor_web.conf.j2 dest={{ supervisor_config }}
+  template: src=supervisor_web.conf.j2 dest={{ supervisor_web_config }}
 
 - name: Start web application server
   shell: supervisorctl reload

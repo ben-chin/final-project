@@ -2,6 +2,7 @@
 
 - name: Get latest node
   shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+  when: not development
 
 - name: Install nodejs
   apt: name={{ item }} state=present
@@ -10,3 +11,13 @@
 
 - name: Install node dependencies
   npm: path={{ web_dir }}
+
+- name: Start supervisor service
+  service: name=supervisor state=started
+
+- name: Copy the supervisor config
+  template: src=supervisor_webpack.conf.j2 dest={{ supervisor_webpack_config }}
+  when: development
+
+- name: Start webpack-dev-server
+  shell: supervisorctl reload
