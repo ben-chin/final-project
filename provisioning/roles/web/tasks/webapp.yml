@@ -1,0 +1,22 @@
+---
+
+- name: Start supervisor service
+  service: name=supervisor state=started
+
+- name: Create the web user
+  user: name=web shell=/bin/bash
+
+- name: Create folder for web files
+  file: path={{ web_working_dir }} owner=web group=web state=directory
+
+- name: Create logging directory
+  file: path={{ web_log_dir }} owner=web group=web state=directory
+
+- name: Create/activate virtualenv and install dependencies
+  pip: requirements={{ web_dir }}/requirements.txt virtualenv={{ web_venv }} state=present
+
+- name: Copy the supervisor config
+  template: src=supervisor_web.conf.j2 dest={{ supervisor_config }}
+
+- name: Start web application server
+  shell: supervisorctl reload

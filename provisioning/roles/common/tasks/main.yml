@@ -15,6 +15,7 @@
      - python2.7-dev
      - supervisor
      - vim
+     - curl
 
 - name: Make working directory
   file: path={{ working_dir }} state=directory

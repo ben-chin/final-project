@@ -1,0 +1,12 @@
+---
+
+- name: Get latest node
+  shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+
+- name: Install nodejs
+  apt: name={{ item }} state=present
+  with_items:
+     - nodejs
+
+- name: Install node dependencies
+  npm: path={{ web_dir }}
