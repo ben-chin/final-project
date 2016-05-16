@@ -8,6 +8,7 @@ new WebpackDevServer(webpack(config), {
   inline: true,
   historyApiFallback: true,
   colors: true,
+  headers: { 'Access-Control-Allow-Origin': '*' },
   watchOptions: {
     aggregateTimeout: 300,
     poll: 1000

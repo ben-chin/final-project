@@ -10,10 +10,10 @@ module.exports = {
   context: ROOT_DIR,
 
   entry: {
-    main: [
+    report: [
       'webpack-dev-server/client?http://192.168.33.15:3000',
       'webpack/hot/only-dev-server',
-      path.resolve(JS_DIR, 'index'),
+      path.resolve(JS_DIR, 'report', 'index'),
     ]
   },
 
