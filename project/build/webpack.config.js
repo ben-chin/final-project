@@ -11,6 +11,7 @@ module.exports = {
 
   entry: {
     report: [
+      'babel-polyfill',
       'webpack-dev-server/client?http://192.168.33.15:3000',
       'webpack/hot/only-dev-server',
       path.resolve(JS_DIR, 'report', 'index'),

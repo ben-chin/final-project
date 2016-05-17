@@ -1,121 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
 
 import App from 'report/components/App';
 import reducer from 'report/reducers';
-import { selectCategory } from 'report/actions/creators';
+import { fetchReport } from 'report/actions/creators';
 
-const dummyData = {
-    "user": {
-        "id": 2,
-        "first_name": "Ben",
-        "last_name": "",
-        "social_auth": [
-            {
-                "uid": "537439729",
-                "provider": "twitter",
-                "screen_name": "ben_the_chin"
-            }
-        ]
-    },
-    "categories": [
-        {
-            "category": {
-                "id": 1,
-                "name": "Excessive Alcohol Consumption"
-            },
-            "posts": [
-                "691015146236440577",
-                "689401047522025472",
-                "676162145902530560",
-                "668235991073857536",
-                "651077701797810176",
-                "633685249906601984",
-                "621796442353500160",
-                "519206808364535808",
-                "518793620506550272",
-                "506910194958221312",
-                "500364283386281984",
-                "493861493751173120",
-                "493829229524836353",
-                "493828365422710784",
-                "493398464903266304",
-                "488405768342097921",
-                "477158389383168000",
-                "470867082859790336",
-                "464535946571309056",
-                "460922580770504704",
-                "454355256328347648",
-                "449512189830103041",
-                "446343931001716737",
-                "442694900027756544",
-                "437389117081796608",
-                "414843575898476544",
-                "392003510335983616",
-                "389438348294516736",
-                "364682968172093440",
-                "338366597863464961",
-                "331901418338402305",
-                "331005597195591680",
-                "328622143824859137",
-                "328621815087902721",
-                "328145056991154177",
-                "328102580892884992",
-                "327520643811770368",
-                "323525155324325888",
-                "321952623471259649",
-                "320999485532684288",
-                "313748495565725696",
-                "302753905618612224"
-            ]
-        },
-        {
-            "category": {
-                "id": 2,
-                "name": "Drug Abuse"
-            },
-            "posts": [
-                "723828347407609857",
-                "458372402192605184",
-                "455313217712316416"
-            ]
-        },
-        {
-            "category": {
-                "id": 5,
-                "name": "Innovation"
-            },
-            "posts": [
-                "686736724488253440",
-                "464537148004528128",
-                "455844279089631233",
-                "447095348964917248",
-                "447095309995630592",
-                "422876220096004096",
-                "382795599050842114",
-                "382795493304045568",
-                "373041223725895680"
-            ]
-        },
-        {
-            "category": {
-                "id": 6,
-                "name": "Slang"
-            },
-            "posts": [
-                "435932218222194688"
-            ]
-        }
-    ],
-    selectedCategory: 1,
-};
 
-let store = createStore(reducer, dummyData);
+let store = createStore(
+    reducer,
+    applyMiddleware(thunkMiddleware)
+);
+
 store.subscribe(() => {
   console.log(store.getState());
 });
+
+store.dispatch(fetchReport());
 
 render((
         <Provider store={store}>
