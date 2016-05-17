@@ -26,10 +26,11 @@ export default class CategoryList extends React.Component {
         return categories.map((item) => {
             return (
                 <CategoryItem
-                    key={item.idx}
-                    id={item.idx}
+                    key={item.id}
+                    id={item.id}
                     name={item.name}
                     count={item.count}
+                    onClick={() => this.props.onCategoryClick(item.id)}
                 />
             );
         });

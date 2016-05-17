@@ -1,8 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import App from 'report/components/App';
-
+import reducer from 'report/reducers';
+import { selectCategory } from 'report/actions/creators';
 
 const dummyData = {
     "user": {
@@ -105,26 +108,19 @@ const dummyData = {
                 "435932218222194688"
             ]
         }
-    ]
+    ],
+    selectedCategory: 1,
 };
 
-render(
-    <App
-        categories={getCatInfo(dummyData.categories)}
-        categoryName={dummyData.categories[0].category.name}
-        tweets={dummyData.categories[0].posts}
-    />,
+let store = createStore(reducer, dummyData);
+store.subscribe(() => {
+  console.log(store.getState());
+});
+
+render((
+        <Provider store={store}>
+            <App />
+        </Provider>
+    ),
     document.querySelector('.Content')
 );
-
-function getCatInfo(categories) {
-    var cats = [];
-    for (var i = 0; i < categories.length; i++) {
-        cats.push({
-            'idx': i,
-            'name': categories[i].category.name,
-            'count': categories[i].posts.length,
-        });
-    }
-    return cats;
-}

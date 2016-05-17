@@ -6,7 +6,7 @@ export default class CategoryItem extends React.Component {
 
     render () {
         return (
-            <li className="CategoryList-item CategoryItem">
+            <li className="CategoryList-item CategoryItem" onClick={this.props.onClick}>
                 <div className="CategoryItem-hoverBar"></div>
                 <div className="CategoryItem-details">
                     <span className="CategoryItem-name">
