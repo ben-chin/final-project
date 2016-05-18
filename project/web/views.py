@@ -100,16 +100,16 @@ def profile(request):
 @login_required(login_url='/')
 def analyse(request):
     if request.user:
-        social_auth = UserSocialAuth.objects.filter(user=request.user)[0]
-        celery.send_task('analyse', [
-            request.user.id,
-            social_auth.uid,
-            request.build_absolute_uri(reverse('save_analysis')),
-            {
-                'key': social_auth.access_token['oauth_token'],
-                'secret': social_auth.access_token['oauth_token_secret'],
-            },
-        ])
+        # social_auth = UserSocialAuth.objects.filter(user=request.user)[0]
+        # celery.send_task('analyse', [
+        #     request.user.id,
+        #     social_auth.uid,
+        #     request.build_absolute_uri(reverse('save_analysis')),
+        #     {
+        #         'key': social_auth.access_token['oauth_token'],
+        #         'secret': social_auth.access_token['oauth_token_secret'],
+        #     },
+        # ])
         # tweets = cache.get(uid)
         # if tweets is None:
         #     tweets = get_tweets(uid)
@@ -117,7 +117,7 @@ def analyse(request):
 
         # classify_tweets(tweets, request.user)
 
-        return redirect('report')
+        return render(request, 'web/analyse/main.html')
 
 
 @login_required(login_url='/')
