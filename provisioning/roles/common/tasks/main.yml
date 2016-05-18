@@ -16,6 +16,9 @@
      - supervisor
      - vim
      - curl
+     - libssl-dev
+     - libffi-dev
+     - python-openssl
 
 - name: Make working directory
   file: path={{ working_dir }} state=directory

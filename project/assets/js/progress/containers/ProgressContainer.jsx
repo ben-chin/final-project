@@ -21,10 +21,13 @@ class ProgressContainer extends React.Component {
 
     componentDidMount () {
         let channel = this.pusher.subscribe('test_channel');
-        console.debug('props', this.props)
         channel.bind('my_event', (data) => {
             console.debug('my_event', data, this);
-            this.props.dispatch(markScrapingDone());
+            if (data.isDone === 'scraping') {
+                this.props.dispatch(markScrapingDone());
+            } else if (data.isDone === 'analysis') {
+                this.props.dispatch(markAnalysisDone());
+            }
         });
     }
 

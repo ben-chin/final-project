@@ -250,3 +250,116 @@ body {
     width: 30px;
     margin-top: -15px;
 }
+
+// ---------------------------------------------------------------
+
+.Progress {
+    float: left;
+    margin-top: 70px;
+    text-align: center;
+}
+
+.Progress-seeResultsBtn {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 12px 55px;
+    border-radius: 4px;
+    background: $accent-clr;
+    border-bottom: 3px solid darken($accent-clr, 4%);
+    transition: background 0.05s ease-out;
+
+    color: white;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: 0.8px;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: white;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background: darken($accent-clr, 2%);
+        transition: background 0.05s ease-in-out;
+    }
+}
+
+.ProgressStage {
+    float: left;
+    width: 50%;
+    padding: 20px 50px;
+    position: relative;
+}
+
+.ProgressStage-done,
+.ProgressStage-spinner {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    margin-left: -20px;
+    font-size: 40px;
+    transition: opacity 0.1s ease-in;
+
+    .ProgressStage.is-loading & {
+        transition: opacity 0.1s ease-out 0.05s;
+    }
+}
+
+.ProgressStage-spinner {
+    opacity: 0;
+    animation: rotating 1s linear infinite;
+
+    .ProgressStage.is-loading & {
+        opacity: 1;
+    }
+}
+
+.ProgressStage-done {
+    opacity: 1;
+    color: $accent-clr;
+
+    .ProgressStage.is-loading & {
+        opacity: 0;
+    }
+}
+
+.ProgressStage-inner {
+    margin-top: 60px;
+    padding: 15px 20px;
+    border-radius: 3px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 1 1px 5px rgba(0, 0, 0, 0.03);
+}
+
+.ProgressStage-title {
+    color: $accent-clr;
+    transition: color 0.1s ease-out;
+
+    .ProgressStage.is-loading & {
+        color: #34495e;
+        transition: color 0.1s ease-in 0.05s;
+    }
+}
+
+.ProgressStage-description {}
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

@@ -2,6 +2,7 @@ import os
 import tweepy
 import json
 import requests
+import pusher
 
 from collections import defaultdict
 from celery import Celery
@@ -9,7 +10,7 @@ from social.twitter import TwitterApiFactory
 from autocat import ACSerializer
 
 
-TWEETS_TO_SCRAPE = 500
+TWEETS_TO_SCRAPE = 1
 
 # TODO: refactor to use command-line args and specify from ansible/supervisor?
 WORKER_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -20,6 +21,14 @@ celery = Celery(
     'worker',
     broker=os.environ['CELERY_BROKER_URL'],
     backend='rpc'
+)
+
+pusher_client = pusher.Pusher(
+    app_id='208050',
+    key='24f40a1d963e3f8c8ca1',
+    secret=os.environ['PUSHER_SECRET'],
+    cluster='eu',
+    ssl=True
 )
 
 twt_factory = TwitterApiFactory(
@@ -62,13 +71,15 @@ def classify_tweets(tweets):
 # or supply just user and tweets (from cache) to analyse
 @celery.task(name='analyse')
 def analyse(user_id, social_id, url, credentials=None, tweets=None):
-    # TODO: send notification
     print '> [worker] scraping tweets'
     tweets = scrape_tweets(social_id, credentials)
+    pusher_client.trigger('test_channel', 'my_event', {'isDone': 'scraping'})
 
-    # TODO: send notification
     print '> [worker] classifying tweets'
     result = classify_tweets(tweets)
+    pusher_client.trigger('test_channel', 'my_event', {'isDone': 'analysis'})
+
+    print '> [worker] done'
 
     categories = []
     for cat_id in result:

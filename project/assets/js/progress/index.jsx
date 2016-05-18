@@ -19,5 +19,5 @@ render((
             <App />
         </Provider>
     ),
-    document.querySelector('.Content')
+    document.querySelector('.ProgressContent')
 );
