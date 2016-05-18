@@ -10,7 +10,7 @@ from social.twitter import TwitterApiFactory
 from autocat import ACSerializer
 
 
-TWEETS_TO_SCRAPE = 1
+TWEETS_TO_SCRAPE = 100
 
 # TODO: refactor to use command-line args and specify from ansible/supervisor?
 WORKER_DIR = os.path.dirname(os.path.abspath(__file__))

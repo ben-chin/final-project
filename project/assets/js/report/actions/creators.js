@@ -6,6 +6,8 @@ import {
     RECEIVE_REPORT,
     REQUEST_TWEETS,
     RECEIVE_TWEETS,
+    REQUEST_DELETE_TWEET,
+    RECEIVE_DELETE_TWEET,
 } from 'report/actions/types';
 
 
@@ -71,5 +73,26 @@ export function fetchTweetsIfNeeded (tweetIds) {
     return (dispatch) => {
         if (tweetIds.length === 0) return Promise.resolve();
         return dispatch(fetchTweets(tweetIds));
+    };
+}
+
+export function requestDeleteTweet (tweetId) {
+    return { type: REQUEST_DELETE_TWEET, tweetId };
+}
+
+export function receiveDeleteTweet (tweetId, isSuccess) {
+    return { type: RECEIVE_DELETE_TWEET, tweetId, isSuccess };
+}
+
+export function deleteTweet (tweetId) {
+    return function (dispatch) {
+        dispatch(requestDeleteTweet(tweetId));
+        return fetch(`/tweets/${tweetId}/delete/`, {
+            credentials: 'same-origin',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(receiveDeleteTweet(tweetId, data.success));
+            });
     };
 }

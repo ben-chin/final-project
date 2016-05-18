@@ -6,6 +6,12 @@ import TweetItem from 'report/components/TweetItem';
 
 export default class TweetList extends React.Component {
 
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.deleteTweetError) {
+            alert('Error deleting tweet');
+        }
+    }
+
     render () {
         return (
             <div className='TweetList col-xs-8'>
@@ -28,6 +34,7 @@ export default class TweetList extends React.Component {
                 <TweetItem
                     key={item.id}
                     text={item.text}
+                    onClick={() => this.props.deleteTweet(item.id)}
                 />
             );
         });

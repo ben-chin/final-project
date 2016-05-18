@@ -8,7 +8,7 @@ export default class TweetItem extends React.Component {
         return (
             <li className='TweetList-item TweetItem'>
                 <div className='TweetItem-details'>
-                    <a href='#'>
+                    <a href='#' onClick={this.props.onClick}>
                         <span className='TweetItem-delete glyphicon glyphicon-remove'></span>
                     </a>
                     <p className='TweetItem-name'>

@@ -2,7 +2,7 @@ import _ from 'underscore';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchTweetsIfNeeded } from 'report/actions/creators';
+import { fetchTweetsIfNeeded, deleteTweet } from 'report/actions/creators';
 import TweetList from 'report/components/TweetList';
 
 class TweetListContainer extends React.Component {
@@ -24,6 +24,7 @@ class TweetListContainer extends React.Component {
             <TweetList
                 categoryName={this.props.categoryName}
                 tweets={this.props.tweets || []}
+                deleteTweet={(id) => this.props.dispatch(deleteTweet(id))}
             />
         );
     }
@@ -47,6 +48,7 @@ const mapStateToProps = (state) => {
         categoryName,
         tweetIds,
         tweets: state.tweets,
+        deleteTweetError: state.deleteTweetError,
         selectedCategory: state.selectedCategory,
     };
 };
