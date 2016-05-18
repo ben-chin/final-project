@@ -1,5 +1,4 @@
 import time
-import sys
 import os
 import json
 
@@ -62,6 +61,33 @@ def parse_tweet(tweet):
     }
 
 
+def delete_tweet_by_id(tweet_id, user_id):
+    social_auth = UserSocialAuth.objects.filter(uid=user_id, provider='twitter')
+    if not social_auth:
+        return None
+
+    social_auth = social_auth[0]
+
+    auth = tweepy.OAuthHandler(
+        SOCIAL_AUTH_TWITTER_KEY,
+        SOCIAL_AUTH_TWITTER_SECRET
+    )
+    auth.set_access_token(
+        social_auth.access_token['oauth_token'],
+        social_auth.access_token['oauth_token_secret']
+    )
+    twt = tweepy.API(
+        auth_handler=auth,
+        wait_on_rate_limit=True,
+        wait_on_rate_limit_notify=True,
+    )
+
+    try:
+        return twt.destroy_status(tweet_id)
+    except tweepy.TweepError:
+        return None
+
+
 def index(request):
     return render(request, 'web/index/main.html')
 
@@ -111,10 +137,18 @@ def logout(request):
 def tweets(request):
     if request.user:
         ids = request.GET.getlist('ids[]')
-        print ids
         uid = request.user.social_auth.get().uid
         tweets = get_tweets_by_ids(ids, uid)
         return JsonResponse({'tweets': tweets})
+
+
+def delete_tweet(request, tweet_id):
+    if request.user:
+        uid = request.user.social_auth.get().uid
+        status = delete_tweet_by_id(tweet_id, uid)
+        if status:
+            return JsonResponse({'success': True})
+        return JsonResponse({'success': False})
 
 
 @csrf_exempt
@@ -131,7 +165,6 @@ def save_analysis(request):
     for c in categories:
         cat_id = c['id'] + 1
         category = get_object_or_404(Category, pk=cat_id)
-        print >>sys.stderr, category
         posts = c['posts']
         CategoryAnalysis.objects.create(
             analysis=analysis,

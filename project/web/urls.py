@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^me/analyse/$', views.analyse, name='analyse'),
     url(r'^me/report/$', views.report, name='report'),
     url(r'^tweets/$', views.tweets, name='tweets'),
+    url(r'^tweets/(?P<tweet_id>[0-9]+)/delete/$', views.delete_tweet, name='delete_tweet'),
     url(r'^analysis/save$', views.save_analysis, name='save_analysis'),
 
 
