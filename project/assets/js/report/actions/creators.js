@@ -4,6 +4,8 @@ import {
     SELECT_CATEGORY,
     REQUEST_REPORT,
     RECEIVE_REPORT,
+    REQUEST_TWEETS,
+    RECEIVE_TWEETS,
 } from 'report/actions/types';
 
 
@@ -20,10 +22,10 @@ export function receiveReport (response) {
         type: RECEIVE_REPORT,
         user: response.user,
         categories: response.categories,
-        selectedCategory: () => {
+        selectedCategory: (() => {
             if (response.categories.length === 0) return null;
             return response.categories[0].category.id;
-        },
+        })(),
     };
 }
 
@@ -37,5 +39,37 @@ export function fetchReport () {
             .then((data) => {
                 dispatch(receiveReport(data));
             });
+    };
+}
+
+export function requestTweets (tweetIds) {
+    return { type: REQUEST_TWEETS, tweetIds };
+}
+
+export function receiveTweets (response) {
+    return {
+        type: RECEIVE_TWEETS,
+        tweets: response.tweets,
+    };
+}
+
+export function fetchTweets (tweetIds) {
+    return function (dispatch) {
+        dispatch(requestTweets(tweetIds));
+        let q = `?ids[]=${tweetIds.join('&ids[]=')}`;
+        return fetch(`/tweets/${q}`, {
+            credentials: 'same-origin',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(receiveTweets(data));
+            });
+    };
+}
+
+export function fetchTweetsIfNeeded (tweetIds) {
+    return (dispatch) => {
+        if (tweetIds.length === 0) return Promise.resolve();
+        return dispatch(fetchTweets(tweetIds));
     };
 }

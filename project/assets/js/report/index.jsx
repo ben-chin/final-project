@@ -15,7 +15,7 @@ let store = createStore(
 );
 
 store.subscribe(() => {
-  console.log(store.getState());
+  console.debug('store', store.getState());
 });
 
 store.dispatch(fetchReport());

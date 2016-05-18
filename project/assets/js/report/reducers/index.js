@@ -2,10 +2,13 @@ import {
     SELECT_CATEGORY,
     REQUEST_REPORT,
     RECEIVE_REPORT,
+    REQUEST_TWEETS,
+    RECEIVE_TWEETS,
 } from 'report/actions/types';
 
 const initialState = {
-    isFetching: false,
+    isFetchingReport: false,
+    isFetchingTweets: false,
     user: {},
     categories: [],
     selectedCategory: null,
@@ -22,16 +25,30 @@ function reportReducer (state = initialState, action) {
         case REQUEST_REPORT:
             return {
                 ...state,
-                isFetching: true,
+                isFetchingReport: true,
             };
 
         case RECEIVE_REPORT:
             return {
                 ...state,
-                isFetching: false,
+                isFetchingReport: false,
                 user: action.user,
                 categories: action.categories,
                 selectedCategory: action.selectedCategory,
+            };
+
+        case REQUEST_TWEETS:
+            return {
+                ...state,
+                isFetchingTweets: true,
+                tweets: [],
+            };
+
+        case RECEIVE_TWEETS:
+            return {
+                ...state,
+                isFetchingTweets: false,
+                tweets: action.tweets,
             };
 
         default:

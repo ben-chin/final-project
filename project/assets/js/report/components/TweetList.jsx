@@ -26,8 +26,8 @@ export default class TweetList extends React.Component {
         return tweets.map((item) => {
             return (
                 <TweetItem
-                    key={item}
-                    text={item}
+                    key={item.id}
+                    text={item.text}
                 />
             );
         });
