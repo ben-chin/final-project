@@ -9,3 +9,6 @@ project/web/static/web/assets/css/*
 worker/data/*
 project/node_modules
 project/build/webpack-stats.json
+.sass-cache/
+provisioning/vagrant.retry
+provisioning/vars/

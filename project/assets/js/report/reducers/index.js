@@ -8,16 +8,22 @@ import {
     RECEIVE_TWEETS,
     REQUEST_DELETE_TWEET,
     RECEIVE_DELETE_TWEET,
+    SELECT_TWEET,
+    REQUEST_USER,
+    RECEIVE_USER,
 } from 'report/actions/types';
 
 const initialState = {
+    isAnalysing: false,
     isFetchingReport: false,
+    isFetchingUser: false,
     isFetchingTweets: false,
     isDeletingTweet: false,
     deleteTweetError: false,
-    user: {},
+    reportUser: {},
     categories: [],
     selectedCategory: null,
+    selectedTweets: [],
 };
 
 function reportReducer (state = initialState, action) {
@@ -38,7 +44,7 @@ function reportReducer (state = initialState, action) {
             return {
                 ...state,
                 isFetchingReport: false,
-                user: action.user,
+                reportUser: action.reportUser,
                 categories: action.categories,
                 selectedCategory: action.selectedCategory,
             };
@@ -70,6 +76,32 @@ function reportReducer (state = initialState, action) {
                 ...state,
                 isDeletingTweet: false,
                 deleteTweetError: action.isSuccess,
+            };
+
+        case SELECT_TWEET:
+            let newTweets = [];
+            let selected = Array.isArray(action.selectedTweet) ? action.selectedTweet : [action.selectedTweet];
+            if (action.replace) {
+                newTweets = _.union(newTweets, selected);
+            } else {
+                newTweets = _.union(newTweets, state.selectedTweets, selected);
+            }
+            return {
+                ...state,
+                selectedTweets: newTweets,
+            };
+
+        case REQUEST_USER:
+            return {
+                ...state,
+                isFetchingUser: true,
+            };
+
+        case RECEIVE_USER:
+            return {
+                ...state,
+                isFetchingUser: false,
+                user: action.user,
             };
 
         default:

@@ -25,10 +25,10 @@
   file: path={{ worker_log_dir }} owner=worker group=worker state=directory
 
 - name: Create/activate virtualenv and install dependencies
-  pip: requirements={{ worker_dir }}/requirements.txt virtualenv={{ worker_venv }} state=present
+  pip: requirements={{ worker_dir }}/requirements.txt virtualenv={{ worker_venv }} extra_args='--process-dependency-links' state=latest
 
 - name: Download relevant NLTK data
-  shell: '{{ worker_venv }}/bin/python -m nltk.downloader -d {{ nltk_data_dir }} stopwords punkt'
+  shell: '{{ worker_venv }}/bin/python -m nltk.downloader -d {{ nltk_data_dir }} stopwords punkt wordnet'
   args:
     creates: '{{ nltk_data_dir }}'
 

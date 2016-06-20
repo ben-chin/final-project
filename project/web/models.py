@@ -5,6 +5,18 @@ from django.contrib.auth.models import User
 # from social.apps.django_app.default.models import UserSocialAuth
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='profile')
+    profile_img = models.URLField()
+    posts = models.IntegerField()
+    followers = models.IntegerField()
+    following = models.IntegerField()
+    last_analysed = models.DateTimeField(blank=True, null=True)
+
+    def __unicode__(self):
+        return '{}\'s profile'.format(self.user.id)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     content = models.CharField(max_length=300)

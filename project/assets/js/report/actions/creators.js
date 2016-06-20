@@ -8,6 +8,9 @@ import {
     RECEIVE_TWEETS,
     REQUEST_DELETE_TWEET,
     RECEIVE_DELETE_TWEET,
+    SELECT_TWEET,
+    REQUEST_USER,
+    RECEIVE_USER,
 } from 'report/actions/types';
 
 
@@ -22,7 +25,7 @@ export function requestReport () {
 export function receiveReport (response) {
     return {
         type: RECEIVE_REPORT,
-        user: response.user,
+        reportUser: response.user,
         categories: response.categories,
         selectedCategory: (() => {
             if (response.categories.length === 0) return null;
@@ -84,6 +87,10 @@ export function receiveDeleteTweet (tweetId, isSuccess) {
     return { type: RECEIVE_DELETE_TWEET, tweetId, isSuccess };
 }
 
+export function selectTweet (selectedTweet, replace) {
+    return { type: SELECT_TWEET, selectedTweet, replace };
+}
+
 export function deleteTweet (tweetId) {
     return function (dispatch) {
         dispatch(requestDeleteTweet(tweetId));
@@ -96,3 +103,28 @@ export function deleteTweet (tweetId) {
             });
     };
 }
+
+export function requestUser () {
+    return { type: REQUEST_USER };
+}
+
+export function receiveUser (response) {
+    return {
+        type: RECEIVE_USER,
+        user: response,
+    };
+}
+
+export function fetchUser () {
+    return function (dispatch) {
+        dispatch(requestUser());
+        return fetch('/api/v1/user/', {
+            credentials: 'same-origin',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(receiveUser(data));
+            });
+    };
+}
+

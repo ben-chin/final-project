@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -8,13 +9,7 @@ export default class CategoryList extends React.Component {
 
     render () {
         return (
-            <div className='CategoryList col-xs-4'>
-                <header className="ReportHeader">
-                    <div className="ReportHeader-inner">
-                        <h2 className="ReportHeader-title">Report</h2>
-                    </div>
-                </header>
-
+            <div className='CategoryList col-xs-3'>
                 <ul className="CategoryList-items">
                     {this.renderCategoryItems(this.props.categories)}
                 </ul>
@@ -22,7 +17,7 @@ export default class CategoryList extends React.Component {
         );
     }
 
-    renderCategoryItems(categories) {
+    renderCategoryItems (categories) {
         return categories.map((item) => {
             return (
                 <CategoryItem
@@ -31,9 +26,14 @@ export default class CategoryList extends React.Component {
                     name={item.name}
                     count={item.count}
                     onClick={() => this.props.onCategoryClick(item.id)}
+                    isSelected={this.isCategorySelected(item.id)}
                 />
             );
         });
+    }
+
+    isCategorySelected (catId) {
+        return catId === this.props.selectedCategory;
     }
 
 }

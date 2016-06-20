@@ -6,8 +6,8 @@
   sudo_user: root
   roles:
      - common
-     - web
-     - queue
      - worker
+     - queue
+     - web
   vars_files:
     - vars/dev.yml

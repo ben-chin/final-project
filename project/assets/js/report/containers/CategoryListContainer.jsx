@@ -18,6 +18,7 @@ const getCatInfo = (categories) => {
 const mapStateToProps = (state) => {
     return {
         categories: getCatInfo(state.categories),
+        selectedCategory: state.selectedCategory,
     };
 };
 

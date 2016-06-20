@@ -1,4 +1,14 @@
-$accent-clr: #38CA76;
+@import 'fonts';
+
+$app-clr: #38CA76;
+
+$app-clr: #f67466;
+$body-clr: #404347;
+$bg-color: #fafafa;
+$border-clr: #e7e7e7;
+$subheader-clr: #fdfdfd;
+
+$nav-height: 70px;
 
 html, body {
     height: 100%;
@@ -6,28 +16,41 @@ html, body {
 }
 
 body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Oxygen', 'Lato', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 300;
-    letter-spacing: 0.3px;
-    padding-top: 50px;
-    color: #34495e;
+    letter-spacing: 0.5px;
+    padding-top: $nav-height;
+    color: $body-clr;
 
-    background: #f7f7f7;
+    background: $bg-color;
 }
 
 .Nav {
-    background-color: $accent-clr;
+    background-color: white;
     border: none;
+    border-bottom: 1px solid $border-clr;
+    height: $nav-height;
 }
 
 .Nav-brand {
+    height: $nav-height;
+    padding: 0 10px;
 
     &.navbar-brand {
-        color: white;
-        font-family: 'Simplifica', sans-serif;
-        font-size: 24px;
+        color: $app-clr;
+        font-family: 'Azedo', sans-serif;
+        font-size: 28px;
         letter-spacing: 2px;
+    }
+}
+
+.Nav-logo {
+    width: 65px;
+    height: auto;
+
+    .navbar-brand > & {
+        display: inline-block;
     }
 }
 
@@ -35,12 +58,16 @@ body {
 
     .Nav & {
         &> li > a {
-            color: white;
+            font-size: 12px;
+            color: $body-clr;
+            padding-top: ($nav-height - 20) / 2;
+            padding-bottom: ($nav-height - 20) / 2;
+            display: inline-block;
 
             &:focus,
             &:hover,
             &:active {
-                color: white;
+                color: $body-clr;
                 background: none;
             }
         }
@@ -48,26 +75,46 @@ body {
         &> .dropdown.open {
             
             &> a {
-                color: white;
+                color: $body-clr;
                 background: none;
             }
         }
     }
 }
 
+.Nav-userImage {
+    width: 36px;
+    height: 36px;
+    border-radius: 99em;
+    border: 1px solid $border-clr;
+    display: inline-block;
+}
+
 .Nav-userDropDown {
-    background: $accent-clr;
-    box-shadow: none;
+    font-size: 12px;
+    background: white;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.03);
     border: none;
-    
+    border-left: 1px solid $border-clr;
+    border-right: 1px solid $border-clr;
+    border-bottom: 1px solid $border-clr;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-align: right;
+    min-width: 110px;
+
+    li {
+        padding: 1px 0;
+    }
+
     &> li > a {
-        color: white;
+        color: $body-clr;
         font-weight: 300;
 
         &:focus,
         &:hover,
         &:active {
-            color: white;
+            color: $body-clr;
             background: none;
         }
     }
@@ -75,63 +122,244 @@ body {
 
 .Wrapper {
     height: 100%;
-    padding: 25px 15px;
+    padding: 15px 15px;
 }
 
 .Content {
-    height: 100%;
+    // height: 100%;
+    // border-radius: 4px;
+    // background: #fafafa;
+    // box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+
+    // overflow: hidden;
+}
+
+$profile-img-size: 100px;
+
+.Profile,
+.AnalysisOverview {
+    text-align: left;
+    float: left;
+    margin-top: $profile-img-size / 2;
+    margin-bottom: 30px;
+    margin-right: 2%;
+    padding: 15px 0;
+    background: white;
     border-radius: 4px;
-    background: #fafafa;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
-
-    overflow: hidden;
+    border: 1px solid $border-clr;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.03);
+    height: 160px;
 }
 
-.ReportHeader,
-.CategoryHeader {
-    position: absolute;
-    z-index: 5;
-    height: 90px;
-    top: 0;
-    left: 0;
-    right: 0;
-    overflow: hidden;
-    background: #fafafa;
+.Profile {
+    width: 58%;
 }
 
-.ReportHeader-inner,
-.CategoryHeader-inner {
-    border-bottom: 1px solid #e9e9e9;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding-left: 40px;
+.Profile-left,
+.Profile-right {
+    float: left;
 }
 
-.ReportHeader-title,
-.CategoryHeader-title {
+.Profile-left {
+    padding-right: 30px;
+}
+
+.Profile-right {
+    padding: 0 30px;
+    padding-top: 70px;
+}
+
+.Profile-imgWrapper {
+    width: $profile-img-size + 2;
+    border-radius: 99em;
+    border: 1px solid $border-clr;
+    margin-left: 25px;
+    margin-top: (-$profile-img-size / 2);
+}
+
+.Profile-img {
+    width: $profile-img-size;
+    height: $profile-img-size;
+    border-radius: 99em;
+    border: 3px solid white;
+}
+
+.Profile-header {
+    text-align: left;
+}
+
+.Profile-name,
+.Profile-screenName {
     font-weight: 300;
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 20px;
+    padding-left: 35px;
+}
+
+.Profile-name {
+    padding-top: 4px;
+    font-size: 15px;
+    color: $app-clr;
+    margin-bottom: 8px;
+    border-left: 2px solid $app-clr;
+}
+
+.Profile-screenName {
+    font-size: 12px;
+    color: lighten($body-clr, 5%);
+}
+
+.Profile-twtInfo {
+    font-size: 13px;
+}
+
+.Profile-twtInfoRow {
+    padding: 3px 0;
+}
+
+.Profile-twtInfoLabel,
+.Profile-twtInfoRowDetail {
+    display: inline-block;
+}
+
+.Profile-twtInfoLabel {
+    font-weight: 700;
+    text-transform: uppercase;
+    padding-right: 15px;
+    width: 100px;
+}
+
+.Profile-twtInfoDetail {
+    padding-left: 15px;
+    color: $app-clr;
+}
+
+.AnalysisOverview {
+    width: 40%;
+    margin-right: 0;
+    padding: 15px 25px;
+}
+
+.AnalysisOverview-header {
+
+}
+
+.AnalysisOverview-headerTitle {
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.7px;
+    color: $app-clr;
     margin-top: 10px;
 }
 
-.ReportHeader-title {
-    color: $accent-clr;
-    font-size: 22px;
-    letter-spacing: 1.3px;
+.AnalysisOverview-explanation {
+    font-size: 12px;
+}
+
+.AnalysisOverview-analyse {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.AnalysisOverview-analyseBtn {
+    padding: 10px 65px;
+    color: white;
+    background: $app-clr;
+    border-radius: 18px;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1.3px;
+    font-size: 12px;
+    line-height: 15px;
+
+    transition: background 0.1s ease-in-out;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: white;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background: darken($app-clr, 5%);
+        transition: background 0.1s ease-out;
+    }
 }
 
-.CategoryHeader-title {
-    font-family: 'Simplifica', sans-serif;
-    font-size: 40px;
-    letter-spacing: 4px;
+.Report {
+    position: relative;
+    float: left;
+    height: 400px;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid $border-clr;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.03);
 }
 
-.CategoryList {
+.Report-header {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background: $app-clr;
+    line-height: 30px;
+    padding: 22px 25px;
+}
+
+.Report-headerTitle {
+    color: white;
+    font-size: 17px;
+    font-weight: 300;
+    margin: 0;
+}
+
+.Report-subHeader {
+    position: absolute;
+    z-index: 1;
+    top: 17px + (2 * 22);
+    width: 100%;
+    padding: 15px 25px;
+    line-height: 20px;
+    border-bottom: 1px solid $border-clr;
+    background: $subheader-clr;
+}
+
+.Report-subHeaderTitle {
+    float: left;
+    color: $app-clr;
+    font-size: 14px;
+    font-weight: 300;
+    margin: 5px 0;
+}
+
+.Report-subHeaderCategory {
+    font-weight: 400;
+}
+
+.Report-subHeaderActions {
+    float: right;
+    margin: 5px 0;
+    padding-right: 5px;
+    font-size: 13px;
+}
+
+.Report-subHeaderAction,
+.Report-subHeaderActionCount {
+    display: inline-block;
+}
+
+.Report-subHeaderActionCount {
+    width: 80px;
+    text-align: right;
+}
+
+.CategoryList,
+.TweetList {
     height: 100%;
+    background: white;
 }
 
 .TweetList-items,
@@ -139,7 +367,7 @@ body {
     list-style-type: none;
     padding-left: 0;
     position: absolute;
-    top: 90px;
+    top: (16px + (2 * 22)) + (25px + (2 * 15));
     left: 0;
     right: 0;
     bottom: 0;
@@ -157,7 +385,8 @@ body {
     padding: 15px 0;
     cursor: pointer;
 
-    &:hover {
+    &:hover,
+    &.is-selected {
 
         .CategoryItem-hoverBar {
             opacity: 1;
@@ -165,7 +394,7 @@ body {
         }
 
         .CategoryItem-name {
-            color: $accent-clr;
+            color: $app-clr;
             transition: color 0.1s ease-in 0.05s;
         }
     }
@@ -173,11 +402,11 @@ body {
 
 .CategoryItem-hoverBar {
     position: absolute;
-    top: 0;
+    top: 22px;
     left: 0;
-    background: $accent-clr;
-    height: 100%;
-    width: 4px;
+    background: $app-clr;
+    height: 22px;
+    width: 2px;
     opacity: 0;
 
     transition: opacity 0.05s ease-out;
@@ -190,25 +419,26 @@ body {
 }
 
 .CategoryItem-name {
-    font-family: 'Simplifica', sans-serif;
-    font-size: 23px;
-    letter-spacing: 2px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
     float: left;
+    color: lighten($body-clr, 10%);
 
     transition: color 0.05s ease-out;
 }
 
 .CategoryItem-count {
     float: right;
-    color: #f7f7f7;
-    background: #34495e;
-    border-radius: 99em;
-    width: 30px;
-    height: 30px;
+    // color: $app;
+    // background: #34495e;
+    // border-radius: 99em;
+    // width: 30px;
+    // height: 30px;
     font-size: 12px;
     text-align: center;
-    padding-top: 6px;
-    margin-top: -1px;
+    // padding-top: 6px;
+    // margin-top: -1px;
 }
 
 .CategoryItem-actions {
@@ -225,12 +455,42 @@ body {
 
 }
 
-.TweetList {
-    height: 100%;
+.TweetItem {
+    background: white;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    position: relative;
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;
+    transition: background 0.05s ease-out;
+
+    &:hover,
+    &.is-selected {
+        background: darken($subheader-clr, 1%);
+        transition: background 0.1s ease-in 0.05s;
+
+        .TweetItem-hoverBar {
+            opacity: 1;
+            transition: opacity 0.1s ease-in 0.05s;
+        }
+    }
 }
 
-.TweetItem {
-    border-bottom: 1px solid #eee;
+.TweetItem-hoverBar {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    background: $app-clr;
+    height: 18px;
+    width: 2px;
+    opacity: 0;
+
+    transition: opacity 0.05s ease-out;
 }
 
 .TweetItem-details {
@@ -255,24 +515,23 @@ body {
 
 .Progress {
     float: left;
-    margin-top: 70px;
     text-align: center;
 }
 
 .Progress-seeResultsBtn {
     margin-top: 40px;
     display: inline-block;
-    padding: 12px 55px;
-    border-radius: 4px;
-    background: $accent-clr;
-    border-bottom: 3px solid darken($accent-clr, 4%);
+    padding: 12px 65px;
+    border-radius: 99em;
+    background: $app-clr;
     transition: background 0.05s ease-out;
 
     color: white;
-    font-weight: 300;
+    font-weight: 700;
     text-transform: uppercase;
-    font-size: 15px;
-    letter-spacing: 0.8px;
+    letter-spacing: 1.3px;
+    font-size: 12px;
+    line-height: 15px;
 
     &:hover,
     &:focus,
@@ -282,7 +541,7 @@ body {
     }
 
     &:hover {
-        background: darken($accent-clr, 2%);
+        background: darken($app-clr, 2%);
         transition: background 0.05s ease-in-out;
     }
 }
@@ -319,7 +578,7 @@ body {
 
 .ProgressStage-done {
     opacity: 1;
-    color: $accent-clr;
+    color: $app-clr;
 
     .ProgressStage.is-loading & {
         opacity: 0;
@@ -329,23 +588,34 @@ body {
 .ProgressStage-inner {
     margin-top: 60px;
     padding: 15px 20px;
-    border-radius: 3px;
-    background: #fff;
     text-align: center;
-    box-shadow: 1 1px 5px rgba(0, 0, 0, 0.03);
+    background: white;
+    border-radius: 4px;
+    border: 1px solid $border-clr;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .ProgressStage-title {
-    color: $accent-clr;
+    color: $app-clr;
     transition: color 0.1s ease-out;
+    font-size: 18px;
+    font-weight: 300;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid $border-clr;
+    padding-bottom: 15px;
 
     .ProgressStage.is-loading & {
-        color: #34495e;
+        color: $body-clr;
         transition: color 0.1s ease-in 0.05s;
     }
 }
 
-.ProgressStage-description {}
+.ProgressStage-description {
+    font-size: 14px;
+    font-weight: 300;
+    color: lighten($body-clr, 15%);
+}
 
 @keyframes rotating {
   from {
@@ -362,4 +632,23 @@ body {
     -o-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+
+.YourProfile-message {
+    display: inline-block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 0 32%;
+}
+
+.YourProfile-messageTitle {
+    font-size: 26px;
+    font-weight: 300;
+    color: $app-clr;
+    margin-bottom: 20px;
+}
+
+.YourProfile-messageBody {
+
 }

@@ -2,7 +2,11 @@ import _ from 'underscore';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchTweetsIfNeeded, deleteTweet } from 'report/actions/creators';
+import {
+    fetchTweetsIfNeeded,
+    deleteTweet,
+    selectTweet,
+} from 'report/actions/creators';
 import TweetList from 'report/components/TweetList';
 
 class TweetListContainer extends React.Component {
@@ -16,15 +20,21 @@ class TweetListContainer extends React.Component {
     componentWillReceiveProps (nextProps) {
         if (nextProps.selectedCategory !== this.props.selectedCategory) {
             nextProps.dispatch(fetchTweetsIfNeeded(nextProps.tweetIds));
+            nextProps.dispatch(selectTweet([], true));
         }
     }
 
     render () {
+        console.debug('render', this.props.selectedTweets);
         return (
             <TweetList
                 categoryName={this.props.categoryName}
                 tweets={this.props.tweets || []}
-                deleteTweet={(id) => this.props.dispatch(deleteTweet(id))}
+                selectTweet={(e, id) => {
+                    let replace = !!!e.shiftKey;
+                    return this.props.dispatch(selectTweet(id, replace));
+                }}
+                selectedTweets={this.props.selectedTweets}
             />
         );
     }
@@ -50,6 +60,7 @@ const mapStateToProps = (state) => {
         tweets: state.tweets,
         deleteTweetError: state.deleteTweetError,
         selectedCategory: state.selectedCategory,
+        selectedTweets: state.selectedTweets,
     };
 };
 

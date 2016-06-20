@@ -6,7 +6,10 @@ import thunkMiddleware from 'redux-thunk';
 
 import App from 'report/components/App';
 import reducer from 'report/reducers';
-import { fetchReport } from 'report/actions/creators';
+import {
+    fetchReport,
+    fetchUser,
+} from 'report/actions/creators';
 
 
 let store = createStore(
@@ -19,6 +22,7 @@ store.subscribe(() => {
 });
 
 store.dispatch(fetchReport());
+store.dispatch(fetchUser());
 
 render((
         <Provider store={store}>

@@ -4,8 +4,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 
-import App from 'progress/components/App';
-import reducer from 'progress/reducers';
+import App from 'profile/components/App';
+import reducer from 'profile/reducers';
 import { fetchUser } from 'report/actions/creators';
 
 
@@ -25,5 +25,5 @@ render((
             <App />
         </Provider>
     ),
-    document.querySelector('.ProgressContent')
+    document.querySelector('.Content')
 );

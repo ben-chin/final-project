@@ -94,7 +94,10 @@ def index(request):
 
 @login_required(login_url='/')
 def profile(request):
-    return render(request, 'web/profile/main.html')
+    return render(request, 'web/profile/main.html', {
+        'screen_name': request.user.social_auth.get().access_token['screen_name'],
+        'profile_img': request.user.profile.profile_img,
+    })
 
 
 @login_required(login_url='/')
@@ -117,13 +120,17 @@ def analyse(request):
 
         # classify_tweets(tweets, request.user)
 
-        return render(request, 'web/analyse/main.html')
+        return render(request, 'web/analyse/main.html', {
+            'screen_name': request.user.social_auth.get().access_token['screen_name'],
+            'profile_img': request.user.profile.profile_img,
+        })
 
 
 @login_required(login_url='/')
 def report(request):
     return render(request, 'web/report/main.html', {
         'screen_name': request.user.social_auth.get().access_token['screen_name'],
+        'profile_img': request.user.profile.profile_img,
     })
 
 

@@ -1,8 +1,6 @@
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from django.http import Http404
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
 from web.models import Category, Analysis
@@ -16,10 +14,7 @@ class UserViewSet(ReadOnlyModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def list(self, request):
-        raise Http404
-
-    def retrieve(self, request, pk=None):
-        user = get_object_or_404(self.queryset, pk=pk)
+        user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)
 

@@ -14,8 +14,11 @@ TWEETS_TO_SCRAPE = 100
 
 # TODO: refactor to use command-line args and specify from ansible/supervisor?
 WORKER_DIR = os.path.dirname(os.path.abspath(__file__))
-PATH_TO_AC_PKL = os.path.join(WORKER_DIR, 'data', 'ac', 'categorizer.pkl')
+PATH_TO_AC_PKL = os.path.join(WORKER_DIR, 'data', 'ac', 'active', 'ac.pkl')
+print '> [worker] loading classifier'
 autocat = ACSerializer.load(PATH_TO_AC_PKL)
+print '> [worker] loaded classifier'
+print '> [worker] ---------------------------------'
 
 celery = Celery(
     'worker',

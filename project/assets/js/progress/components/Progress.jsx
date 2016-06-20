@@ -10,12 +10,12 @@ export default class Progress extends React.Component {
         return (
             <div className="Progress col-sm-8 col-sm-offset-2">
                 <ProgressStage
-                    title={'Scraping Tweets'}
+                    title={'1. Scraping Tweets'}
                     description={'We\'re collecting as many tweets as we can from your timeline. This may take a few minutes.'}
                     isLoading={!this.props.isScrapingDone}
                 />
                  <ProgressStage
-                    title={'Analysing Tweets'}
+                    title={'2. Analysing Tweets'}
                     description={'We\'re looking over your tweets for posts that you won\'t want to be public.'}
                     isLoading={!this.props.isAnalysisDone}
                 />
@@ -29,7 +29,7 @@ export default class Progress extends React.Component {
 
         return (
             <a href='/me/report/' className='Progress-seeResultsBtn'>
-                See Results
+                View Results
             </a>
         );
     }
