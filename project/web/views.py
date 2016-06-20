@@ -3,6 +3,7 @@ import os
 import json
 
 # from collections import defaultdict
+from datetime import datetime as dt
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout as auth_logout
@@ -94,6 +95,9 @@ def index(request):
 
 @login_required(login_url='/')
 def profile(request):
+    if request.user.profile.last_analysed:
+        return redirect('report')
+
     return render(request, 'web/profile/main.html', {
         'screen_name': request.user.social_auth.get().access_token['screen_name'],
         'profile_img': request.user.profile.profile_img,
@@ -178,5 +182,8 @@ def save_analysis(request):
             category=category,
             posts=posts
         )
+
+    user.profile.last_analysed = dt.now()
+    user.profile.save()
 
     return redirect('report')

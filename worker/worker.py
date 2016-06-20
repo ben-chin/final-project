@@ -61,11 +61,18 @@ def scrape_tweets(user_id, creds):
 
 def classify_tweets(tweets):
     categories = defaultdict(list)
-    for tweet in tweets:
-        result = autocat.classify(tweet.text)
-        identified_categories = result.nonzero()[1]
+    results = autocat.classify_many([t.text for t in tweets])
+    for i, r in enumerate(results):
+        identified_categories = r.nonzero()[0]
         for c in identified_categories:
-            categories[c].append(tweet.id_str)
+            categories[c].append(tweets[i].id_str)
+
+    # MANUAL METHOD
+    # for tweet in tweets:
+    #     result = autocat.classify(tweet.text)
+    #     identified_categories = result.nonzero()[1]
+    #     for c in identified_categories:
+    #         categories[c].append(tweet.id_str)
 
     return categories
 

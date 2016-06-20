@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import dformat from 'dateformat';
 
 export default class Profile extends React.Component {
 
